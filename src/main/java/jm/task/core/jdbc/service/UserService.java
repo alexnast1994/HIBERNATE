@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService {
     void createUsersTable();
 
-    void dropUsersTable();
+    void dropUsersTable() throws ClassNotFoundException;
 
     void saveUser(String name, String lastName, byte age);
 

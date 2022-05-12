@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    public UserDaoJDBCImpl() {
-
-    }
-
+    public UserDaoJDBCImpl() {}
     public void createUsersTable() {
         try (Connection connection = Util.getMySQLConnection()) {
             Statement statement = connection.createStatement();
@@ -21,6 +18,8 @@ public class UserDaoJDBCImpl implements UserDao {
                     "lastName varchar(255), " +
                     "age int )";
             statement.executeUpdate(sql);
+
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,10 +30,11 @@ public class UserDaoJDBCImpl implements UserDao {
             Statement statement = connection.createStatement();
             String sql = "drop table if exists user ";
             statement.execute(sql);
+
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public void saveUser(String name, String lastName, byte age) {
@@ -48,14 +48,14 @@ public class UserDaoJDBCImpl implements UserDao {
 
             preparedStatement.executeUpdate();
             System.out.println("User с " + name + " добавлен в базу данных.");
+
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void removeUserById(long id) {
-
-    }
+    public void removeUserById(long id) {}
 
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
@@ -72,6 +72,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
                 list.add(user);
             }
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,6 +84,8 @@ public class UserDaoJDBCImpl implements UserDao {
             String sql = "truncate table user";
             Statement statement = connection.createStatement();
             statement.execute(sql);
+
+            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
