@@ -7,9 +7,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 
@@ -32,7 +29,6 @@ public class Util {
                 settings.put(Environment.PASS, PASSWORD);
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
                 configuration.setProperties(settings);
 
@@ -47,18 +43,5 @@ public class Util {
             }
         }
         return sessionFactory;
-    }
-
-
-    public static Connection getMySQLConnection() {
-        Connection conn = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
-            conn.setAutoCommit(false);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return conn ;
     }
 }
